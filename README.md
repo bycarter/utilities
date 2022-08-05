@@ -1,3 +1,3 @@
 # utilities
 
-a place to hold my utilites and configs
+my utilites and configs
