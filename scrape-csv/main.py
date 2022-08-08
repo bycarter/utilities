@@ -46,50 +46,24 @@ def test():
     assert title == config_obj["TITLE"]["second"]
 
     # wait, then load
-    a = (By.CSS_SELECTOR, "#packages_tabstrip > ul > li.k-item.k-state-default.k-first")  # define locator to feed into WDW
+    a = (By.CSS_SELECTOR, config_obj["SELECT"]["val1"])
     WebDriverWait(driver, 20).until(EC.presence_of_element_located(a))
-    driver.find_element(by=By.CSS_SELECTOR, value="#packages_tabstrip > ul > li.k-item.k-state-default.k-first").click()
+    driver.find_element(by=By.CSS_SELECTOR, value=config_obj["SELECT"]["val1"]).click()
 
-    b = (By.XPATH, "/html/body/div[3]/div[2]/div[2]/div/div/div/div[1]/div/div[1]/div[4]/div[1]/button")
+    b = (By.XPATH, config_obj["SELECT"]["val2"])
     WebDriverWait(driver, 20).until(EC.presence_of_element_located(b))
-    driver.find_element(by=By.XPATH, value="/html/body/div[3]/div[2]/div[2]/div/div/div/div[1]/div/div[1]/div[4]/div[1]/button").click()
+    driver.find_element(by=By.XPATH, value=config_obj["SELECT"]["val2"]).click()
 
-    c = (By.XPATH, "/html/body/div[3]/div[2]/div[2]/div/div/div/div[1]/div/div[1]/div[4]/div[1]/ul/li[2]")
+    c = (By.XPATH, config_obj["SELECT"]["val3"])
     WebDriverWait(driver, 20).until(EC.presence_of_element_located(c))
-    driver.find_element(by=By.XPATH, value="/html/body/div[3]/div[2]/div[2]/div/div/div/div[1]/div/div[1]/div[4]/div[1]/ul/li[2]").click()
+    driver.find_element(by=By.XPATH, value=config_obj["SELECT"]["val3"]).click()
 
-    // wait until loaded
-    //download file
-    # element = (By.CSS_SELECTOR, "footer_push")
-    # wait = WebDriverWait(driver, 20).until(
-    #     EC.presence_of_element_located(element))
-    # login_button.click()
-    #
-    # element = (By.CSS_SELECTOR, ".btn-inverse > small")
-    # wait = WebDriverWait(driver, 20).until(
-    #     EC.visibility_of_element_located(element))
-    # switch = driver.find_element(by=By.CSS_SELECTOR, value=".btn-inverse > small")
-    # switch.click()
-    #
-    # reclic = driver.find_element(by=By.CSS_SELECTOR, value="li:nth-child(2) div > small")
-    # reclic.click()
-    # driver.implicitly_wait(5.0)
-    # active = driver.find_element(by=By.CSS_SELECTOR, value="#packages_tabstrip_ts_active > .k-link")
-    # active.click()
-    # driver.implicitly_wait(5.0)
-    # exp1 = driver.find_element(by=By.CSS_SELECTOR, value="#packages_tabstrip_ts_active > .k-link")
-    # exp1.click()
-    # exp2 = driver.find_element(by=By.CSS_SELECTOR, value=".btn-group:nth-child(4) > .btn-group:nth-child(1) > .btn")
-    # exp2.click()
-    # driver.implicitly_wait(5.0)
-    #
+    # wait until blob loads
+    # enter keys and download
+
     # today = 'dc-' + str(date.today())
     # ActionChains(driver).send_keys(today)
     # ActionChains(driver).send_keys(Keys.RETURN)
-
-    # search_box = driver.find_element(by=By.NAME, value="q")
-    # value = search_box.get_attribute("value")
-    # assert value == "Selenium"
 
     # driver.quit()
 
