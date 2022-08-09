@@ -1,4 +1,4 @@
-# small program for work to scrape csvs for work
+# small program to scrape csv, edit,
 from configparser import ConfigParser
 from datetime import date
 from selenium import webdriver
@@ -6,16 +6,17 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
 
 
 def main():
-    test()
+    scrape_csv()
 
 
-def test():
+def scrape_csv():
     """Use selenium to scrape csv.  All private info pulled in from config.ini"""
 
     # initialize session with Brave
@@ -45,30 +46,30 @@ def test():
     title = driver.title
     assert title == config_obj["TITLE"]["second"]
 
-    # wait, then load
-    a = (By.CSS_SELECTOR, config_obj["SELECT"]["val1"])
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located(a))
-    driver.find_element(by=By.CSS_SELECTOR, value=config_obj["SELECT"]["val1"]).click()
+    # wait, then load active button
+    a = (By.XPATH, config_obj["SELECT"]["val1"])
+    WebDriverWait(driver, 20).until(EC.visibility_of_all_elements_located(a))
+    driver.find_element(by=By.XPATH, value=config_obj["SELECT"]["val1"]).click()
 
+    # wait, then click toggle button
     b = (By.XPATH, config_obj["SELECT"]["val2"])
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located(b))
+    WebDriverWait(driver, 20).until(EC.visibility_of_element_located(b))
     driver.find_element(by=By.XPATH, value=config_obj["SELECT"]["val2"]).click()
 
+    # wait, then click
     c = (By.XPATH, config_obj["SELECT"]["val3"])
-    WebDriverWait(driver, 20).until(EC.presence_of_element_located(c))
+    WebDriverWait(driver, 20).until(EC.visibility_of_all_elements_located(c))
     driver.find_element(by=By.XPATH, value=config_obj["SELECT"]["val3"]).click()
 
-    # wait until blob loads
-    # enter keys and download
+    # wait until alert is present
+    WebDriverWait(driver, 20).until(EC.alert_is_present());
 
-    # today = 'dc-' + str(date.today())
-    # ActionChains(driver).send_keys(today)
-    # ActionChains(driver).send_keys(Keys.RETURN)
+    # enter keys
+    today = 'dc-' + str(date.today())
+    ActionChains(driver).send_keys(today)
+    ActionChains(driver).send_keys(Keys.RETURN)
 
-    # driver.quit()
-
-
-# def wait_all(driver, css_selector):
+    driver.quit()
 
 
 if __name__ == "__main__":
