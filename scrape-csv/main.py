@@ -9,11 +9,33 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+import pandas as pd
 import time
+import os
 
 
 def main():
-    scrape_csv()
+
+    # pull config data
+    config_obj = ConfigParser()
+    config_obj.read("config.ini")
+
+    # scrape_csv()
+    find_and_open_csv(config_obj)
+
+
+def find_and_open_csv(config_o):
+    os.chdir(config_o["OS"]["downloads"])
+    files = os.listdir()
+    downloaded_file = ''
+
+    for file in files:
+        if file == config_o["OS"]["fileName"]:
+            print(file, 'found')
+            downloaded_file = file
+        else:
+            print('not found')
+            return 1
 
 
 def scrape_csv():
