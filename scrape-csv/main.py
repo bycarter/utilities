@@ -21,21 +21,39 @@ def main():
     config_obj.read("config.ini")
 
     # scrape_csv()
-    find_and_open_csv(config_obj)
+    file_df = verify_and_open_csv(config_obj)
+    mod_data_to_csv(file_df, config_obj)
 
 
-def find_and_open_csv(config_o):
+def mod_data_to_csv(dataframe, config_object):
+    dataframe["Business"] = 33
+    dataframe["Discontinued"] = ''
+    n_df = dataframe.replace(",", ";", regex=True)
+    # print(n_df.to_markdown())
+    file_out = 'dc-' + str(date.today()) + '.csv'
+    path_out = config_object["OS"]["downloads"] + '/'
+    combo_out = path_out + file_out
+
+    n_df.to_csv(combo_out)
+
+
+def verify_and_open_csv(config_o):
+    """confirm download exists and open in pd"""
     os.chdir(config_o["OS"]["downloads"])
     files = os.listdir()
-    downloaded_file = ''
+    target_file_name = config_o["OS"]["fileName"]
 
     for file in files:
-        if file == config_o["OS"]["fileName"]:
+        file_found = False  # flag for logging, -WIP-
+        if file == target_file_name:
             print(file, 'found')
-            downloaded_file = file
-        else:
-            print('not found')
-            return 1
+            file_found = True
+
+    # create dataframe and
+    path = os.getcwd() + '/' + target_file_name
+    file_df = pd.read_excel(path, index_col=0)
+
+    return file_df
 
 
 def scrape_csv():
@@ -84,10 +102,11 @@ def scrape_csv():
     driver.find_element(by=By.XPATH, value=config_obj["SELECT"]["val3"]).click()
 
     # wait until alert is present
-    WebDriverWait(driver, 20).until(EC.alert_is_present());
+    #WebDriverWait(driver, 20).until(EC.alert_is_present());
 
     # enter keys
     today = 'dc-' + str(date.today())
+    time.sleep(3)
     ActionChains(driver).send_keys(today)
     ActionChains(driver).send_keys(Keys.RETURN)
 
